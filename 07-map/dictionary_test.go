@@ -45,6 +45,41 @@ func TestAdd(t *testing.T) {
   })
 }
 
+func TestUpdate(t *testing.T) {
+  t.Run("existing key", func(t *testing.T) {
+    key := "test"
+    value := "this is just a test"
+    dictionary := Dictionary{key: value}
+    newValue := "this is new definition"
+
+    err := dictionary.Update(key, newValue)
+
+    assertError(t, err, nil)
+    assertDefinition(t, dictionary, key, newValue)
+  })
+
+  t.Run("none existing key", func(t *testing.T) {
+    key := "test"
+    value := "this is just a test"
+    dictionary := Dictionary{}
+
+    err := dictionary.Update(key, value)
+
+    assertError(t, err, errWordNotExist)
+  })
+}
+
+func TestDelete(t *testing.T) {
+  key := "test"
+  dictionary := Dictionary{key: "key definition"}
+  dictionary.Delete(key)
+
+  _, err := dictionary.Search(key)
+  if err != errNoKey {
+    t.Errorf("expect %q to be deleted", key)
+  }
+}
+
 func assertString(t testing.TB, got, want, key string) {
   t.Helper()
   if got != want {
