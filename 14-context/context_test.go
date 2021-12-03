@@ -47,17 +47,17 @@ type SpyResponseWrite struct {
 }
 
 func (s *SpyResponseWrite) Header() http.Header {
-  s.written =true
+  s.written = true
   return nil
 }
 
 func (s *SpyResponseWrite) Write([]byte) (int, error) {
-  s.written =true
+  s.written = true
   return 0, errors.New("not implemented")
 }
 
 func (s *SpyResponseWrite) WriteHeader(statusCode int) {
-  s.written =true
+  s.written = true
 }
 
 func TestServer(t *testing.T) {
